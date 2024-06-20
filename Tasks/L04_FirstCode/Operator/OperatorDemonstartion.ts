@@ -1,4 +1,4 @@
-// Arithmetic Operators
+// Arithmetic Operators:
 let a: number = 10;
 let b: number = 5;
 

@@ -1,1 +1,1 @@
-console.log("Hello World from TypeScript again, compiled by the watch")
+console.log("Hello World from TypeScript again, compiled by the watch!")

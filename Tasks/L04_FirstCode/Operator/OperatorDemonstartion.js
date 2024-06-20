@@ -1,5 +1,5 @@
 "use strict";
-// Arithmetic Operators
+// Arithmetic Operators:
 let a = 10;
 let b = 5;
 console.log('Arithmetic Operators:');
