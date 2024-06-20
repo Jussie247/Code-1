@@ -1,0 +1,61 @@
+/* Tag (Typ) Selektoren */
+p {
+    color: blue;
+}
+
+/* Klassen-Selektoren */
+.example {
+    color: green;
+}
+
+/* ID-Selektoren */
+#unique {
+    color: red;
+}
+
+/* Attribut-Selektoren */
+input[type="text"] {
+    border: 1px solid black;
+}
+
+/* Nachkommen-Selektoren */
+div span {
+    color: purple;
+}
+
+/* Kinder-Selektoren */
+div > p {
+    color: orange;
+}
+
+/* Benachbarte Geschwister-Selektoren */
+h1 + p {
+    color: brown;
+}
+
+/* Allgemeine Geschwister-Selektoren */
+h1 ~ p {
+    color: teal;
+}
+
+/* Pseudo-Klassen */
+a:hover {
+    color: yellow;
+}
+
+/* Pseudo-Elemente */
+p::first-letter {
+    font-size: 200%;
+    color: pink;
+}
+
+/* Universeller Selektor */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Gruppierungs-Selektoren */
+h1, h2, h3 {
+    font-family: Arial, sans-serif;
+}
