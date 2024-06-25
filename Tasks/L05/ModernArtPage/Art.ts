@@ -52,21 +52,20 @@ function createRandomElement(): HTMLElement {
 function createRandomElements() {
     // Get a random number of elements to create (between 5 and 1000)
     const numElements = getRandomInt(5, 1000);
-    
+
     // Loop to create and append each element
     for (let i = 0; i < numElements; i++) {
         const randomElement = createRandomElement();
         document.body.appendChild(randomElement);
-       
+
     }
 }
 
-    document.body.addEventListener("click" , hndClick);
+document.body.addEventListener("click", hndClick);
 
 function hndClick(_event: Event): void {
     let target: HTMLElement = <HTMLElement>_event.target;
-    if (target == document.body)
-        return;
+    //if (target == document.body) return;
     target.textContent = "World"
     target.style.backgroundColor = getRandomColor()
     console.log(_event.currentTarget)
