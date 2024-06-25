@@ -56,6 +56,15 @@ function hndClick(_event) {
     target.style.backgroundColor = getRandomColor();
     console.log(_event.currentTarget);
 }
+document.body.addEventListener("dblclick", dblClick);
+function dblClick(_event) {
+    let dbltarget = _event.target;
+    if (dbltarget == document.body)
+        return;
+    dbltarget.style.left = `${getRandomInt(0, window.innerWidth - parseInt(dbltarget.style.width))}px`;
+    dbltarget.style.top = `${getRandomInt(0, window.innerHeight - parseInt(dbltarget.style.height))}px`;
+    console.log(_event.currentTarget);
+}
 // When the window loads, create the random elements
 window.onload = () => {
     createRandomElements();
