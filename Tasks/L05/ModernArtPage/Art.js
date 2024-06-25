@@ -48,6 +48,15 @@ function createRandomElements() {
         document.body.appendChild(randomElement);
     }
 }
+document.body.addEventListener("click", hndClick);
+function hndClick(_event) {
+    let target = _event.target;
+    if (target == document.body)
+        return;
+    target.textContent = "World";
+    target.style.backgroundColor = getRandomColor();
+    console.log(_event.currentTarget);
+}
 // When the window loads, create the random elements
 window.onload = () => {
     createRandomElements();

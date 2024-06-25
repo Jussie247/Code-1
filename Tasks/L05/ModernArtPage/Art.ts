@@ -57,10 +57,27 @@ function createRandomElements() {
     for (let i = 0; i < numElements; i++) {
         const randomElement = createRandomElement();
         document.body.appendChild(randomElement);
+       
     }
+}
+
+    document.body.addEventListener("click" , hndClick);
+
+function hndClick(_event: Event): void {
+    let target: HTMLElement = <HTMLElement>_event.target;
+    if (target == document.body)
+        return;
+    target.textContent = "World"
+    target.style.backgroundColor = getRandomColor()
+    console.log(_event.currentTarget)
 }
 
 // When the window loads, create the random elements
 window.onload = () => {
     createRandomElements();
 };
+
+
+
+
+

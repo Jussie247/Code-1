@@ -5,12 +5,13 @@ let newSpan = document.createElement("span");
 newSpan.textContent = "Hello";
 document.body.appendChild(newSpan);
 newSpan.style.backgroundColor = "red";
-let i = 0;
-do {
-    i++;
+for (let i = 0; i < 10; i++) {
     let newSpan = document.createElement("span");
     newSpan.textContent = "Hello";
     document.body.appendChild(newSpan);
     newSpan.style.backgroundColor = "red";
-    console.log(i);
-} while (i < 10);
+    newSpan.addEventListener("click", hndClick);
+}
+function hndClick(_event) {
+    console.log(_event);
+}
