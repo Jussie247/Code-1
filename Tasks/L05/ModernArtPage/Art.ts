@@ -39,7 +39,7 @@ function createRandomElement(): HTMLElement {
     element.style.padding = '5px';
     element.style.border = '1px solid black';
     element.style.color = getRandomColor();
-    element.style.fontSize = '20px';
+    element.style.fontSize = '12px';
     element.style.fontFamily = fonts[getRandomInt(0, fonts.length - 1)];
 
     // Set a random word as the text content of the element
