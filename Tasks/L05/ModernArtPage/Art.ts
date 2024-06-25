@@ -39,7 +39,7 @@ function createRandomElement(): HTMLElement {
     element.style.padding = '5px';
     element.style.border = '1px solid black';
     element.style.color = getRandomColor();
-    element.style.fontSize = '12px';
+    element.style.fontSize = '20px';
     element.style.fontFamily = fonts[getRandomInt(0, fonts.length - 1)];
 
     // Set a random word as the text content of the element
@@ -50,7 +50,7 @@ function createRandomElement(): HTMLElement {
 
 // Function to create a random number of elements and add them to the document body
 function createRandomElements() {
-    // Get a random number of elements to create (between 5 and 10)
+    // Get a random number of elements to create (between 5 and 1000)
     const numElements = getRandomInt(5, 1000);
     
     // Loop to create and append each element
