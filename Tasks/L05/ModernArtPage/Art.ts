@@ -62,17 +62,18 @@ function createRandomElements() {
 }
 
 document.body.addEventListener("click", hndClick);
-
+// function to change the color with a mouse click
 function hndClick(_event: Event): void {
     let target: HTMLElement = <HTMLElement>_event.target;
-    //if (target == document.body) return;
+    if (target == document.body) 
+        return;
     target.textContent = "World"
     target.style.backgroundColor = getRandomColor()
     console.log(_event.currentTarget)
 }
 
 document.body.addEventListener("dblclick", dblClick);
-
+// function to move the objekt to a random position with a double click
 function dblClick(_event: Event): void {
     let dbltarget: HTMLElement = <HTMLElement>_event.target;
     if (dbltarget == document.body) 
