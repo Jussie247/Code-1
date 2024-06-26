@@ -49,14 +49,17 @@ function createRandomElements() {
     }
 }
 document.body.addEventListener("click", hndClick);
+// function to change the color with a mouse click
 function hndClick(_event) {
     let target = _event.target;
-    //if (target == document.body) return;
-    target.textContent = "World";
+    if (target == document.body)
+        return;
+    target.textContent = "Slay";
     target.style.backgroundColor = getRandomColor();
     console.log(_event.currentTarget);
 }
 document.body.addEventListener("dblclick", dblClick);
+// function to move the objekt to a random position with a double click
 function dblClick(_event) {
     let dbltarget = _event.target;
     if (dbltarget == document.body)
