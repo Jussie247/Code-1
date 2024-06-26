@@ -67,7 +67,7 @@ function hndClick(_event: Event): void {
     let target: HTMLElement = <HTMLElement>_event.target;
     if (target == document.body) 
         return;
-    target.textContent = "World"
+    target.textContent = "Slay"
     target.style.backgroundColor = getRandomColor()
     console.log(_event.currentTarget)
 }
