@@ -32,8 +32,14 @@ ctx.stroke();
 
 // Draw a red ellipse
 ctx.beginPath();
-ctx.ellipse(200, 55, 50, 15, 2, 0, Math.PI * 2);
+ctx.ellipse(200, 55, 50, 30, 12.5, 0, Math.PI * 2);
 ctx.fillStyle = 'red';
+ctx.fill();
+
+// Draw a green arc (circle)
+ctx.beginPath();
+ctx.arc(200, 55, 15, 0, Math.PI * 2);
+ctx.fillStyle = 'black';
 ctx.fill();
 
 // Draw a gradient rectangle
