@@ -31,7 +31,7 @@ ctx.ellipse(200, 55, 50, 15, 2, 0, Math.PI * 2);
 ctx.fillStyle = 'red';
 ctx.fill();
 // Draw a gradient rectangle
-const gradient = ctx.createLinearGradient(50, 250, 110, 250);
+const gradient = ctx.createLinearGradient(50, 250, 100, 150);
 gradient.addColorStop(0, 'purple');
 gradient.addColorStop(1, 'orange');
 ctx.fillStyle = gradient;
