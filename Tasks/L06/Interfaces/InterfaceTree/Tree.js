@@ -1,48 +1,73 @@
 "use strict";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-let Tree1 = {
-    TreeType: "Spruce",
-    PositionX: 500,
-    PositionY: 200,
-    SizeX: 10,
-    SizeY: 500,
-    ColorLeafes: "green",
-    ColorStem: "brown",
-    ColorNeedles: "none",
-    leafes: false,
-    needles: true,
+let tree = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
 };
-let Tree2 = {
-    TreeType: "Oak",
-    PositionX: 200,
-    PositionY: 200,
-    SizeX: 10,
-    SizeY: 500,
-    ColorLeafes: "none",
-    ColorNeedles: "green",
-    ColorStem: "brown",
-    leafes: true,
-    needles: false,
+let tree2 = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
 };
-let Trees = [Tree1, Tree2];
-function TreeInfo(Tree) {
-    console.log(Tree.TreeType, "has leafes?", Tree.leafes, "has?.", Tree.needles, "The tree has a size of", Tree.SizeX, Tree.SizeY);
+let tree3 = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
+};
+let tree4 = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
+};
+let tree5 = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
+};
+let tree6 = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
+};
+let trees = [tree, tree2, tree3, tree4, tree5, tree6];
+function drawTree() {
+    for (let i = 0; i < trees.length; i++) {
+        let pathTree = new Path2D();
+        pathTree.rect(trees[i].positionX, trees[i].positionY, trees[i].scaleX, 500 * trees[i].scaleY);
+        ctx.fillStyle = tree.color;
+        ctx.fill(pathTree);
+        for (let l = 0; l < trees[i].leaves; l++) {
+            let pathLeaf = new Path2D;
+            pathLeaf.ellipse(trees[i].positionX + (Math.random() * 100) - (Math.random() * 100), trees[i].positionY + (Math.random() * 150) - (Math.random() * 100), Math.random() * 50 + 25, Math.random() * 50 + 25, Math.PI / 2, 0, 2 * Math.PI);
+            ctx.fillStyle = "#507d2a";
+            ctx.fill(pathLeaf);
+        }
+    }
 }
-for (let i = 0; i < Trees.length; i++) {
-    TreeInfo(Trees[i]);
-}
-let pathTree = new Path2D;
-pathTree.rect(Tree1.PositionX, Tree1.PositionY, Tree1.SizeX, Tree1.SizeY);
-ctx.fillStyle = Tree1.ColorStem;
-ctx.fill(pathTree);
-let pathLeaves = new Path2D;
-pathLeaves.ellipse(Tree1.PositionX, Tree1.PositionY, 50, 30, 12.5, 0, Math.PI * 2);
-ctx.fillStyle = Tree1.ColorLeafes;
-ctx.fill(pathLeaves);
-for (let i = 0; i < 10; i++) {
-    let pathLeaves = new Path2D;
-    pathLeaves.ellipse(Tree1.PositionX + Math.random() * 50 - Math.random() * 50, Tree1.PositionY + Math.random() * 50, 50, 30, 12.5, 0, Math.PI * 2);
-    ctx.fillStyle = Tree1.ColorLeafes;
-    ctx.fill(pathLeaves);
-}
+drawTree();

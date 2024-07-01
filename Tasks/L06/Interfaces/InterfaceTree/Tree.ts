@@ -2,73 +2,94 @@ const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
 
 interface TreeData {
-    TreeType: string,
-    PositionX: number,
-    PositionY: number,
-    SizeX: number,
-    SizeY: number,
-    ColorLeafes: string,
-    ColorNeedles: string,
-    ColorStem: string,
-    leafes: boolean,
-    needles: boolean,
-
+    positionX: number;
+    positionY: number;
+    scaleX: number;
+    scaleY: number;
+    leaves: number;
+    color: string;
+    hasLeaves: boolean;
 }
 
-let Tree1: TreeData = {
-    TreeType: "Spruce",
-    PositionX: 500,
-    PositionY: 200,
-    SizeX: 10,
-    SizeY: 500,
-    ColorLeafes: "green",
-    ColorStem: "brown",
-    ColorNeedles: "none",
-    leafes: false,
-    needles: true,
-
+let tree: TreeData = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
 }
 
-let Tree2: TreeData = {
-    TreeType: "Oak",
-    PositionX: 200,
-    PositionY: 200,
-    SizeX: 10,
-    SizeY: 500,
-    ColorLeafes: "none",
-    ColorNeedles: "green",
-    ColorStem: "brown",
-    leafes: true,
-    needles: false,
+let tree2: TreeData = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
 }
 
-let Trees: TreeData[] = [Tree1, Tree2];
-
-function TreeInfo(Tree: TreeData): void {
-    console.log(Tree.TreeType, "has leafes?", Tree.leafes, "has?.", Tree.needles, "The tree has a size of", Tree.SizeX, Tree.SizeY);
-
+let tree3: TreeData = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
 }
 
 
-
-for(let i: number = 0; i < Trees.length; i++){
-    TreeInfo(Trees[i]);
+let tree4: TreeData = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
 }
 
-let pathTree = new Path2D;
-pathTree.rect(Tree1.PositionX, Tree1.PositionY, Tree1.SizeX, Tree1.SizeY);
-ctx.fillStyle = Tree1.ColorStem;
-ctx.fill(pathTree);
 
-let pathLeaves = new Path2D;
-pathLeaves.ellipse(Tree1.PositionX, Tree1.PositionY, 50, 30, 12.5, 0, Math.PI * 2);
-ctx.fillStyle = Tree1.ColorLeafes;
-ctx.fill(pathLeaves);
-
-for(let i: number = 0; i < 10; i++) {
-    let pathLeaves = new Path2D;
-pathLeaves.ellipse(Tree1.PositionX + Math.random()* 50 - Math.random() * 50, Tree1.PositionY + Math.random() * 50, 50, 30, 12.5, 0, Math.PI * 2);
-ctx.fillStyle = Tree1.ColorLeafes;
-ctx.fill(pathLeaves);
-
+let tree5: TreeData = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
 }
+
+
+let tree6: TreeData = {
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 50,
+    scaleX: 1,
+    scaleY: 1,
+    leaves: Math.random() * 15 + 15,
+    color: "#80755a",
+    hasLeaves: true,
+}
+
+let trees: TreeData[] = [tree, tree2, tree3, tree4, tree5, tree6];
+
+function drawTree(): void {
+    for(let i: number = 0; i < trees.length; i++){
+        let pathTree = new Path2D();
+        pathTree.rect(trees[i].positionX, trees[i].positionY, trees[i].scaleX, 500 * trees[i].scaleY);
+        ctx.fillStyle = tree.color;
+        ctx.fill(pathTree);
+
+        for (let l: number = 0; l < trees[i].leaves; l++) {
+            let pathLeaf = new Path2D;
+            pathLeaf.ellipse(trees[i].positionX + (Math.random() * 100) - (Math.random() * 100), trees[i].positionY + (Math.random() * 150) - (Math.random() * 100), Math.random() * 50 + 25, Math.random() * 50 + 25, Math.PI / 2, 0, 2 * Math.PI)
+            ctx.fillStyle = "#507d2a";
+            ctx.fill(pathLeaf);
+
+        }
+    }
+}
+    drawTree();
