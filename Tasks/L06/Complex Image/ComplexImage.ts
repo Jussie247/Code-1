@@ -11,7 +11,17 @@ interface TreeData {
     hasLeaves: boolean;
 }
 
+interface CloudData {
+    positionX: number;
+    positionY: number;
+    scaleX: number;
+    scaleY: number;
+    cloudParts: number,
+    color: string;
+}
+
 let trees: TreeData[] = [];
+let clouds: CloudData[] = [];
 
 for(let t: number = 0; t < 7; t++){
     trees.push({
@@ -24,6 +34,16 @@ for(let t: number = 0; t < 7; t++){
         hasLeaves: true,
     })
     }
+for(let c: number = 0; c  < 5; c++){
+    clouds.push({
+        positionX: Math.random() * 1920,
+        positionY: Math.random() * 20,
+        scaleX: 1,
+        scaleY: 1,
+        cloudParts: Math.random() * 15 + 15,
+        color: "#808080",
+    })
+}
 
 function drawTree(): void {
     for(let i: number = 0; i < trees.length; i++){
@@ -42,3 +62,21 @@ function drawTree(): void {
     }
 }
     drawTree();
+
+function drawClouds(): void {
+
+    for(let d: number = 0; d < clouds.length; d++) {
+
+    
+
+
+   
+    for(let i: number = 0; i < clouds[d].cloudParts; i++) {
+        let pathClouds = new Path2D;
+        pathClouds.ellipse(clouds[d].positionX + (Math.random() * 100) - (Math.random() * 100), clouds[d].positionY + (Math.random() * 150) - (Math.random() * 100), Math.random() * 50 +25, Math.random() * 50 + 25, Math.PI / 2, 0, 2 * Math.PI) 
+        ctx.fillStyle = clouds[d].color;
+        ctx.fill(pathClouds);
+        }
+    }
+}
+    drawClouds();
