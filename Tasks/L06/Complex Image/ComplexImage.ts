@@ -211,13 +211,13 @@ drawMoon();
 drawTree();
 drawClouds();
 drawFog();
-
+// making "screenshot" of the static objects
 let imgData: ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
 drawBees();
 
 
-
+// function for the bee "movement"
 const speed: number = 0.5;
 function updateBee(){
     for (let i: number = 0; i < bees.length; i++){
@@ -227,7 +227,7 @@ function updateBee(){
         }
     }
 }
-
+// animation
 function animationFrame(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.putImageData(imgData, 0, 0);
