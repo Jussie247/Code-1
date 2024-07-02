@@ -27,7 +27,7 @@ for(let t: number = 0; t < 7; t++){
     trees.push({
         positionX: Math.random() * 1920,
         positionY: Math.random() * 50 + 500,
-        scaleX: 3,
+        scaleX: 10,
         scaleY: 1,
         leaves: Math.random() * 15 + 15,
         color: "#80755a",
@@ -37,7 +37,7 @@ for(let t: number = 0; t < 7; t++){
 for(let c: number = 0; c  < 5; c++){
     clouds.push({
         positionX: Math.random() * 1920,
-        positionY: Math.random() * 20,
+        positionY: Math.random() * 50 + 150,
         scaleX: 1,
         scaleY: 1,
         cloudParts: Math.random() * 15 + 15,
