@@ -3,19 +3,17 @@ const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
 
 
 
-// Moon
-function drawMoon(){
-    for(let m: number = 0; m < 1; m++){
-        let pathMoon = new Path2D();
-        let size = Math.random() * 5 + 50;
-        pathMoon.ellipse(Math.random() * 50 + 200, Math.random() * 50 + 100, size, size, Math.PI / 4, 0, 2 * Math.PI);
-        ctx.fillStyle = "#ffffe0";
-        ctx.fill(pathMoon); 
-    }
-}
-drawMoon();
+
 
 //creating Data interface
+interface MoonData {
+    positionX: number,
+    positionY: number,
+    size: number,
+}
+
+
+
 interface TreeData {
     positionX: number;
     positionY: number;
@@ -57,6 +55,19 @@ let trees: TreeData[] = [];
 let clouds: CloudData[] = [];
 let fog: FogData[] = [];
 let bees: BeeData[] = [];
+let Moon: MoonData[] = [];
+
+
+
+Moon.push({
+    positionX: Math.random() * 50 + 200,
+    positionY: Math.random() * 50 + 100,
+    size: Math.random() * 5 + 50,
+
+})
+
+
+
 
 for(let t: number = 0; t < 7; t++){
     trees.push({
@@ -76,7 +87,7 @@ for(let c: number = 0; c  < 5; c++){
         scaleX: 1,
         scaleY: 1,
         cloudParts: Math.random() * 15 + 15,
-        color: "#5A5A5A",
+        color: "#94949410",
     })
 }
 
@@ -92,14 +103,24 @@ for(let f: number = 0; f < 100; f++){
 } 
 
 // Adding bees at tree height
-for(let bee: number = 0; bee < 3; bee++){
+for(let bee: number = 0; bee < 5; bee++){
 bees.push({
     positionX: Math.random() * 1920,
     positionY: Math.random() * 50 + 450, // Adjust to the height of the tree leaves
-    width: 40, // Make bees larger
+    width: 40, 
     height: 20,
     color: "#FFD700",
 });
+}
+
+// Moon
+function drawMoon(){
+    for(let m: number = 0; m < 1; m++){
+        let pathMoon = new Path2D();
+        pathMoon.ellipse(Moon[m].positionX, Moon[m].positionY, Moon[m].size, Moon[m].size, Math.PI / 4, 0, 2 * Math.PI);
+        ctx.fillStyle = "#ffffe0";
+        ctx.fill(pathMoon); 
+    }
 }
 
 // Drawing fog
@@ -186,7 +207,41 @@ function drawBees(): void {
     }
 }
 
+drawMoon();
 drawTree();
 drawClouds();
 drawFog();
+
+let imgData: ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
 drawBees();
+
+
+
+const speed: number = 0.5;
+function updateBee(){
+    for (let i: number = 0; i < bees.length; i++){
+        bees[i].positionX -= speed;
+        if(bees[i].positionX < 0) {
+            bees[i].positionX = canvas.width;
+        }
+    }
+}
+
+function animationFrame(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.putImageData(imgData, 0, 0);
+    updateBee();
+    drawBees();
+
+    requestAnimationFrame(animationFrame);
+}
+
+    requestAnimationFrame(animationFrame);
+
+// let intervalId: number = setInterval(moveEverySecond, 40);
+// function moveEverySecond(){
+//     ctx.clearRect(0 ,0, canvas.width, canvas.height);
+//     updateBee();
+//     drawBees();
+// }
