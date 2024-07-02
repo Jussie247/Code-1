@@ -12,32 +12,32 @@ path.rect(20, 20, 80, 80);
 ctx.fillStyle = "rgb(255, 0, 255)";
 ctx.fill(path);
 // Draw a blue filled rectangle
-ctx.fillStyle = 'blue';
+ctx.fillStyle = "blue";
 ctx.fillRect(10, 130, 100, 50);
 // Draw a black line
 ctx.beginPath();
 ctx.moveTo(130, 130);
 ctx.lineTo(230, 180);
-ctx.strokeStyle = 'black';
+ctx.strokeStyle = "black";
 ctx.stroke();
 // Draw a green arc (circle)
 ctx.beginPath();
 ctx.arc(200, 55, 50, 0, Math.PI * 2);
-ctx.strokeStyle = 'green';
+ctx.strokeStyle = "green";
 ctx.stroke();
 // Draw a red ellipse
 ctx.beginPath();
 ctx.ellipse(200, 55, 50, 30, 12.5, 0, Math.PI * 2);
-ctx.fillStyle = 'red';
+ctx.fillStyle = "red";
 ctx.fill();
 // Draw a green arc (circle)
 ctx.beginPath();
 ctx.arc(200, 55, 15, 0, Math.PI * 2);
-ctx.fillStyle = 'black';
+ctx.fillStyle = "black";
 ctx.fill();
 // Draw a gradient rectangle
 const gradient = ctx.createLinearGradient(50, 250, 100, 150);
-gradient.addColorStop(0, 'purple');
-gradient.addColorStop(1, 'orange');
+gradient.addColorStop(0, "purple");
+gradient.addColorStop(1, "orange");
 ctx.fillStyle = gradient;
 ctx.fillRect(10, 200, 200, 50);

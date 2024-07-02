@@ -45,13 +45,18 @@ interface FogData {
 }
 
 interface BeeData {
- 
+    positionX: number;
+    positionY: number;
+    width: number;
+    height: number;
+    color: string;
 }
 
 // Setting up Arrays 
 let trees: TreeData[] = [];
 let clouds: CloudData[] = [];
 let fog: FogData[] = [];
+let bees: BeeData[] = [];
 
 for(let t: number = 0; t < 7; t++){
     trees.push({
@@ -85,6 +90,17 @@ for(let f: number = 0; f < 100; f++){
        color: "#ffffff03" 
     })
 } 
+
+// Adding bees at tree height
+for(let bee: number = 0; bee < 3; bee++){
+bees.push({
+    positionX: Math.random() * 1920,
+    positionY: Math.random() * 50 + 450, // Adjust to the height of the tree leaves
+    width: 40, // Make bees larger
+    height: 20,
+    color: "#FFD700",
+});
+}
 
 // Drawing fog
 function drawFog(): void {
@@ -139,6 +155,38 @@ function drawClouds(): void {
 }
 
   
-    drawTree();
-    drawClouds();
-    drawFog();
+ // Drawing the Bees
+function drawBees(): void {
+    for(let b: number = 0; b < bees.length; b++) {
+        let bee = bees[b];
+        
+        // Draw bee body
+        ctx.fillStyle = bee.color;
+        ctx.fillRect(bee.positionX, bee.positionY, bee.width, bee.height);
+        
+        // Draw bee stripes
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(bee.positionX + bee.width / 4, bee.positionY, bee.width / 8, bee.height);
+        ctx.fillRect(bee.positionX + (bee.width / 2), bee.positionY, bee.width / 8, bee.height);
+        ctx.fillRect(bee.positionX + (3 * bee.width / 4), bee.positionY, bee.width / 8, bee.height);
+
+        // Draw bee stinger
+        ctx.beginPath();
+        ctx.moveTo(bee.positionX + bee.width, bee.positionY + bee.height / 2);
+        ctx.lineTo(bee.positionX + bee.width + 10, bee.positionY + bee.height / 2 - 5);
+        ctx.lineTo(bee.positionX + bee.width + 10, bee.positionY + bee.height / 2 + 5);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Draw bee eye
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.arc(bee.positionX + bee.width / 8, bee.positionY + bee.height / 4, bee.height / 6, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+}
+
+drawTree();
+drawClouds();
+drawFog();
+drawBees();

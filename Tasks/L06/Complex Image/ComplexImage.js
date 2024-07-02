@@ -16,6 +16,7 @@ drawMoon();
 let trees = [];
 let clouds = [];
 let fog = [];
+let bees = [];
 for (let t = 0; t < 7; t++) {
     trees.push({
         positionX: Math.random() * 1920,
@@ -45,6 +46,16 @@ for (let f = 0; f < 100; f++) {
         scaleY: 1,
         FogParts: Math.random() * 15 + 15,
         color: "#ffffff03"
+    });
+}
+// Adding bees at tree height
+for (let bee = 0; bee < 3; bee++) {
+    bees.push({
+        positionX: Math.random() * 1920,
+        positionY: Math.random() * 50 + 450, // Adjust to the height of the tree leaves
+        width: 40, // Make bees larger
+        height: 20,
+        color: "#FFD700",
     });
 }
 // Drawing fog
@@ -84,7 +95,34 @@ function drawClouds() {
         }
     }
 }
+// Drawing the Bees
+function drawBees() {
+    for (let b = 0; b < bees.length; b++) {
+        let bee = bees[b];
+        // Draw bee body
+        ctx.fillStyle = bee.color;
+        ctx.fillRect(bee.positionX, bee.positionY, bee.width, bee.height);
+        // Draw bee stripes
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(bee.positionX + bee.width / 4, bee.positionY, bee.width / 8, bee.height);
+        ctx.fillRect(bee.positionX + (bee.width / 2), bee.positionY, bee.width / 8, bee.height);
+        ctx.fillRect(bee.positionX + (3 * bee.width / 4), bee.positionY, bee.width / 8, bee.height);
+        // Draw bee stinger
+        ctx.beginPath();
+        ctx.moveTo(bee.positionX + bee.width, bee.positionY + bee.height / 2);
+        ctx.lineTo(bee.positionX + bee.width + 10, bee.positionY + bee.height / 2 - 5);
+        ctx.lineTo(bee.positionX + bee.width + 10, bee.positionY + bee.height / 2 + 5);
+        ctx.closePath();
+        ctx.fill();
+        // Draw bee eye
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.arc(bee.positionX + bee.width / 8, bee.positionY + bee.height / 4, bee.height / 6, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+}
 drawTree();
 drawClouds();
 drawFog();
+drawBees();
 //# sourceMappingURL=ComplexImage.js.map
