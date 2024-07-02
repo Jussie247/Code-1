@@ -7,7 +7,7 @@ for (let t = 0; t < 7; t++) {
     trees.push({
         positionX: Math.random() * 1920,
         positionY: Math.random() * 50 + 500,
-        scaleX: 1,
+        scaleX: 3,
         scaleY: 1,
         leaves: Math.random() * 15 + 15,
         color: "#80755a",
