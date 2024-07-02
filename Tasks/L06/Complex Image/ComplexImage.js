@@ -1,6 +1,7 @@
 "use strict";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+// Setting up Arrays 
 let trees = [];
 let clouds = [];
 for (let t = 0; t < 7; t++) {
@@ -24,6 +25,7 @@ for (let c = 0; c < 5; c++) {
         color: "#808080",
     });
 }
+// Drawing the Tree
 function drawTree() {
     for (let i = 0; i < trees.length; i++) {
         let pathTree = new Path2D();
@@ -39,6 +41,7 @@ function drawTree() {
     }
 }
 drawTree();
+// Drawing the Clouds
 function drawClouds() {
     for (let d = 0; d < clouds.length; d++) {
         for (let i = 0; i < clouds[d].cloudParts; i++) {

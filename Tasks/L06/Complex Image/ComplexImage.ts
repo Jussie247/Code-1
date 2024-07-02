@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
 
+//creating Data interface
 interface TreeData {
     positionX: number;
     positionY: number;
@@ -20,6 +21,7 @@ interface CloudData {
     color: string;
 }
 
+// Setting up Arrays 
 let trees: TreeData[] = [];
 let clouds: CloudData[] = [];
 
@@ -45,6 +47,7 @@ for(let c: number = 0; c  < 5; c++){
     })
 }
 
+// Drawing the Tree
 function drawTree(): void {
     for(let i: number = 0; i < trees.length; i++){
         let pathTree = new Path2D();
@@ -63,6 +66,7 @@ function drawTree(): void {
 }
     drawTree();
 
+    // Drawing the Clouds
 function drawClouds(): void {
 
     for(let d: number = 0; d < clouds.length; d++) {
