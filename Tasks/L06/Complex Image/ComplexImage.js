@@ -24,14 +24,14 @@ for (let t = 0; t < 7; t++) {
         hasLeaves: true,
     });
 }
-for (let c = 0; c < 5; c++) {
+for (let c = 0; c < 50; c++) {
     clouds.push({
         positionX: Math.random() * 1920,
         positionY: Math.random() * 50 + 150,
         scaleX: 1,
         scaleY: 1,
         cloudParts: Math.random() * 15 + 15,
-        color: "#94949410",
+        color: "#ffffff06",
     });
 }
 for (let f = 0; f < 100; f++) {
@@ -41,11 +41,11 @@ for (let f = 0; f < 100; f++) {
         scaleX: 1,
         scaleY: 1,
         FogParts: Math.random() * 15 + 15,
-        color: "#ffffff03"
+        color: "#ffffff01",
     });
 }
 // Adding bees at tree height
-for (let bee = 0; bee < 5; bee++) {
+for (let bee = 0; bee < 10; bee++) {
     bees.push({
         positionX: Math.random() * 1920,
         positionY: Math.random() * 50 + 450, // Adjust to the height of the tree leaves
@@ -144,12 +144,12 @@ function drawStars() {
         ctx.fill();
     }
 }
-drawMoon();
 drawTree();
 drawClouds();
 drawFog();
 // making "screenshot" of the static objects
 let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+drawMoon();
 drawStars();
 drawBees();
 // function for the bee "movement"
@@ -171,12 +171,23 @@ function updateStar() {
         }
     }
 }
+const speedMoon = 0.1;
+function updateMoon() {
+    for (let i = 0; i < Moon.length; i++) {
+        Moon[i].positionX -= speedMoon;
+        if (Moon[i].positionX < 0) {
+            Moon[i].positionX = canvas.width;
+        }
+    }
+}
 // animation
 function animationFrame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.putImageData(imgData, 0, 0);
     updateStar();
     drawStars();
+    updateMoon();
+    drawMoon();
     updateBee();
     drawBees();
     requestAnimationFrame(animationFrame);
