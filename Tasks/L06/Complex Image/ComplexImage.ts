@@ -124,7 +124,7 @@ bees.push({
 for (let s: number = 0; s < 100; s++) {
     stars.push({
         positionX: Math.random() * canvas.width,
-        positionY: Math.random() * canvas.height * 0.5, // Stars in the upper half of the canvas
+        positionY: Math.random() * canvas.height * 0.35, // Stars in the upper half of the canvas
         size: Math.random() * 2 + 1,
     });
 }
@@ -233,14 +233,14 @@ function drawStars(): void {
         ctx.fill();
     }
 }
-drawStars();
+
 drawMoon();
 drawTree();
 drawClouds();
 drawFog();
 // making "screenshot" of the static objects
 let imgData: ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
+drawStars();
 drawBees();
 
 
@@ -254,12 +254,29 @@ function updateBee(){
         }
     }
 }
+
+const speedStar: number = 0.1;
+function updateStar(){
+    for (let i: number = 0; i < stars.length; i++){
+        stars[i].positionX -= speedStar;
+        if(stars[i].positionX < 0) {
+            stars[i].positionX = canvas.width;
+        }
+    }
+}
+
+
+
+
 // animation
 function animationFrame(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.putImageData(imgData, 0, 0);
+    updateStar();
+    drawStars();
     updateBee();
     drawBees();
+    
     
     requestAnimationFrame(animationFrame);
 }
