@@ -7,6 +7,7 @@ let clouds = [];
 let fog = [];
 let bees = [];
 let Moon = [];
+let stars = [];
 Moon.push({
     positionX: Math.random() * 50 + 200,
     positionY: Math.random() * 50 + 100,
@@ -51,6 +52,14 @@ for (let bee = 0; bee < 5; bee++) {
         width: 40,
         height: 20,
         color: "#FFD700",
+    });
+}
+// Adding star data
+for (let s = 0; s < 100; s++) {
+    stars.push({
+        positionX: Math.random() * canvas.width,
+        positionY: Math.random() * canvas.height * 0.5, // Stars in the upper half of the canvas
+        size: Math.random() * 2 + 1,
     });
 }
 // Moon
@@ -125,6 +134,17 @@ function drawBees() {
         ctx.fill();
     }
 }
+// Drawing the Stars
+function drawStars() {
+    for (let s = 0; s < stars.length; s++) {
+        let star = stars[s];
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(star.positionX, star.positionY, star.size, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+}
+drawStars();
 drawMoon();
 drawTree();
 drawClouds();

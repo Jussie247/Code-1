@@ -50,12 +50,19 @@ interface BeeData {
     color: string;
 }
 
+interface StarData {
+    positionX: number;
+    positionY: number;
+    size: number;
+}
+
 // Setting up Arrays 
 let trees: TreeData[] = [];
 let clouds: CloudData[] = [];
 let fog: FogData[] = [];
 let bees: BeeData[] = [];
 let Moon: MoonData[] = [];
+let stars: StarData[] = [];
 
 
 
@@ -97,7 +104,7 @@ for(let f: number = 0; f < 100; f++){
        positionY: Math.random() * 50 + 800,
        scaleX: 1,
        scaleY: 1,
-       FogParts: Math.random() * 15 +15,
+       FogParts: Math.random() * 15 +15, 
        color: "#ffffff03" 
     })
 } 
@@ -111,6 +118,15 @@ bees.push({
     height: 20,
     color: "#FFD700",
 });
+}
+
+// Adding star data
+for (let s: number = 0; s < 100; s++) {
+    stars.push({
+        positionX: Math.random() * canvas.width,
+        positionY: Math.random() * canvas.height * 0.5, // Stars in the upper half of the canvas
+        size: Math.random() * 2 + 1,
+    });
 }
 
 // Moon
@@ -207,6 +223,17 @@ function drawBees(): void {
     }
 }
 
+// Drawing the Stars
+function drawStars(): void {
+    for (let s: number = 0; s < stars.length; s++) {
+        let star = stars[s];
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(star.positionX, star.positionY, star.size, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+}
+drawStars();
 drawMoon();
 drawTree();
 drawClouds();
@@ -233,7 +260,7 @@ function animationFrame(){
     ctx.putImageData(imgData, 0, 0);
     updateBee();
     drawBees();
-
+    
     requestAnimationFrame(animationFrame);
 }
 
