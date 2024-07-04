@@ -6,6 +6,8 @@ if (!ctx) {
     throw new Error("could not get canvas context");
 }
 let score = 0;
+function drawScore() {
+}
 //Target class to handle the properties and behaviour of the traget
 class Target {
     constructor() {
@@ -46,6 +48,12 @@ class Target {
         }
         this.draw();
     }
+    // Check if a point (mouse click) is within the target's path
+    isHit(mouseX, mouseY) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        return ctx.isPointInPath(mouseX, mouseY);
+    }
 }
 let target = new Target();
 // Main game loop to update and render the scene 
@@ -59,13 +67,11 @@ canvas.addEventListener('click', (event) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
-    // Calculate the distance between the click and the target's center
-    const distance = Math.sqrt((mouseX - target.x) ** 2 + (mouseY - target.y) ** 2);
-    // If the click is within the target's radius, increment the score and create a new target
-    if (distance < target.radius) {
+    // Check if the click is within the target's path
+    if (target.isHit(mouseX, mouseY)) {
         score += 1;
         console.log('Score:', score);
         target = new Target();
     }
 });
-gameLoop();
+gameLoop(); // Start the game loop

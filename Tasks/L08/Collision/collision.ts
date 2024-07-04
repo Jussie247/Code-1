@@ -8,7 +8,12 @@ if (!ctx) {
 
 }
 
-let score = 0
+let score = 0;
+
+function drawScore(): void {
+    
+
+}
 
 //Target class to handle the properties and behaviour of the traget
 class Target {
@@ -20,14 +25,15 @@ class Target {
     color: string;
 
 
-constructor() {
-    this.radius = 20;
-    this.x = Math.random() * (canvas.width - this.radius * 2) + this.radius;
+    constructor() {
+        this.radius = 20;
+    //randomly place the target within canvas
+        this.x = Math.random() * (canvas.width - this.radius * 2) + this.radius;
     this.y = Math.random() * (canvas.height- this.radius * 2) + this.radius;
 
     //raandomly set the velocities making sure they can move in both directions
-    this.dx = (Math.random() - 0.5) * 4;
-    this.dy = (Math.random() - 0.5) * 4;
+        this.dx = (Math.random() - 0.5) * 4;
+        this.dy = (Math.random() - 0.5) * 4;
     
     this.color = this.getRandomColor();
 
@@ -70,14 +76,20 @@ getRandomColor() {
         this.draw();
     }
 
+    // Check if a point (mouse click) is within the target's path
+    isHit(mouseX: number, mouseY: number): boolean {
+        ctx!.beginPath();
+        ctx!.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        return ctx!.isPointInPath(mouseX, mouseY);
+    }
 }
 
-let target = new Target ();
+let target = new Target();
 
 // Main game loop to update and render the scene 
 function gameLoop() {
     ctx!.clearRect(0, 0, canvas.width, canvas.height);  
-    target.update();  
+    target.update(); 
     requestAnimationFrame(gameLoop); 
 }
 // Handle canvas click events to detect hits on the target
@@ -86,15 +98,12 @@ canvas.addEventListener('click', (event) => {
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
-    // Calculate the distance between the click and the target's center
-    const distance = Math.sqrt((mouseX - target.x) ** 2 + (mouseY - target.y) ** 2);
-
-    // If the click is within the target's radius, increment the score and create a new target
-    if (distance < target.radius) {
+    // Check if the click is within the target's path
+    if (target.isHit(mouseX, mouseY)) {
         score += 1;
         console.log('Score:', score);
         target = new Target();
     }
 });
 
-gameLoop();
+gameLoop();  // Start the game loop
