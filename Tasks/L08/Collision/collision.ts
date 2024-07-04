@@ -22,7 +22,6 @@ class Target {
 
 constructor() {
     this.radius = 20;
-    //randomly place the target within canvas
     this.x = Math.random() * (canvas.width - this.radius * 2) + this.radius;
     this.y = Math.random() * (canvas.height- this.radius * 2) + this.radius;
 
