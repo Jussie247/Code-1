@@ -290,6 +290,7 @@ function animationFrame(){
     drawBees();
     
     
+    
     requestAnimationFrame(animationFrame);
 }
 
