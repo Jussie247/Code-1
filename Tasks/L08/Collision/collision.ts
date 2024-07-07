@@ -10,7 +10,11 @@ if (!ctx) {
 
 let score = 0;
 
-function drawScore(): void {
+function drawScore(score: number): void {
+    ctx.textBaseline = "hanging";
+    ctx.font = "48px sans-serif";
+    ctx.fillStyle = "black";
+    ctx.fillText(`Score: ${score}`, 7, 7);
     
 
 }
@@ -74,6 +78,8 @@ getRandomColor() {
         }
 
         this.draw();
+        
+        
     }
 
     // Check if a point (mouse click) is within the target's path
@@ -90,6 +96,7 @@ let target = new Target();
 function gameLoop() {
     ctx!.clearRect(0, 0, canvas.width, canvas.height);  
     target.update(); 
+    drawScore(score);
     requestAnimationFrame(gameLoop); 
 }
 // Handle canvas click events to detect hits on the target
@@ -105,5 +112,6 @@ canvas.addEventListener('click', (event) => {
         target = new Target();
     }
 });
+
 
 gameLoop();  // Start the game loop

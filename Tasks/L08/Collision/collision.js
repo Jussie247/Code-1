@@ -6,7 +6,11 @@ if (!ctx) {
     throw new Error("could not get canvas context");
 }
 let score = 0;
-function drawScore() {
+function drawScore(score) {
+    ctx.textBaseline = "hanging";
+    ctx.font = "48px sans-serif";
+    ctx.fillStyle = "black";
+    ctx.fillText(`Score: ${score}`, 7, 7);
 }
 //Target class to handle the properties and behaviour of the traget
 class Target {
@@ -60,6 +64,7 @@ let target = new Target();
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     target.update();
+    drawScore(score);
     requestAnimationFrame(gameLoop);
 }
 // Handle canvas click events to detect hits on the target
