@@ -199,4 +199,3 @@ requestAnimationFrame(animationFrame);
 //     updateBee();
 //     drawBees();
 // }
-//# sourceMappingURL=ComplexImage.js.map
