@@ -297,13 +297,15 @@ function restart(_event: MouseEvent):void {
 }
 
 function songSelector(): void {
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     const buttonContainer = document.createElement("div");
     buttonContainer.style.position = "absolute";
-    buttonContainer.style.left = "10px";
-    buttonContainer.style.top = "10px";
+    buttonContainer.style.left = `${canvas.offsetLeft - 270}px`; 
+    buttonContainer.style.top = `${canvas.offsetTop}px`;
     buttonContainer.style.display = "flex";
     buttonContainer.style.flexDirection = "column";
     buttonContainer.style.gap = "10px";
+    
 
     let songButton = document.createElement("button");
     songButton.textContent = "Twinkle Twinkle Little Star";
@@ -341,6 +343,7 @@ function songSelector(): void {
     buttonContainer.appendChild(songButton5);
 
     document.body.appendChild(buttonContainer);
+
 }
 
 function selectSong(_event: MouseEvent) {

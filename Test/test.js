@@ -236,10 +236,11 @@ function restart(_event) {
     location.reload();
 }
 function songSelector() {
+    const canvas = document.getElementById("canvas");
     const buttonContainer = document.createElement("div");
     buttonContainer.style.position = "absolute";
-    buttonContainer.style.left = "10px";
-    buttonContainer.style.top = "10px";
+    buttonContainer.style.left = `${canvas.offsetLeft - 270}px`;
+    buttonContainer.style.top = `${canvas.offsetTop}px`;
     buttonContainer.style.display = "flex";
     buttonContainer.style.flexDirection = "column";
     buttonContainer.style.gap = "10px";
