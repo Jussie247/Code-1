@@ -21,3 +21,4 @@ for(let i: number = 0; i < 10; i++) {
 function hndClick(_event: Event): void {
     console.log(_event)
 }
+
