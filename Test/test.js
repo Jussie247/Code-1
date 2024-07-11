@@ -2,14 +2,17 @@
 let currentGameMode = "Standard";
 document.getElementById("start-game").addEventListener("click", startGame);
 const audioCtx = new AudioContext();
+//global variables
 let keys = [];
 let playerSong = "";
 let playerTurn = false;
 let keysPlayed = 0;
 let song = "11556654433221";
+let songProgress = 0;
+let strikeCount = 0;
 function startGame() {
     // Get the selected game mode
-    const gameModeSelect = document.getElementById("game-mode"); //gets gamemode
+    const gameModeSelect = document.getElementById("game-mode");
     currentGameMode = gameModeSelect.value;
     // Clear the body
     document.body.innerHTML = "";
@@ -45,22 +48,9 @@ function startGame() {
         document.body.appendChild(counter);
         counter.style.textAlign = "center";
         songSelector();
-        //Explanation paragraph
-        const explanation = document.createElement("p");
-        explanation.textContent = "Press the button to play the next sound. Replay every sound you heard in order.";
-        explanation.style.marginTop = "10px";
-        explanation.style.fontWeight = "bold";
-        explanation.style.maxWidth = "300px";
-        explanation.style.textAlign = "center";
-        document.body.appendChild(explanation);
-        //Strike counter
-        let counter = document.createElement("span");
-        counter.textContent = "Strikes: 0";
-        document.body.appendChild(counter);
-        counter.style.textAlign = "center";
-        // Initialize the xylophone game
-        initXylophoneGame();
     }
+    // Initialize the xylophone game
+    initXylophoneGame();
 }
 function initXylophoneGame() {
     const canvas = document.getElementById("canvas");
@@ -77,6 +67,7 @@ function initXylophoneGame() {
     canvas.addEventListener("click", handleClick);
     createBoard();
     function createBoard() {
+        //draw the xylophone
         let rods = new Path2D;
         ctx.strokeStyle = "black";
         ctx.lineWidth = 3;
@@ -85,6 +76,7 @@ function initXylophoneGame() {
         rods.moveTo(120, canvas.height - 200);
         rods.lineTo(canvas.width - 150, canvas.height - 200);
         ctx.stroke(rods);
+        //generate xylophone keys
         for (let i = 0; i < keyCount; i++) {
             let y = 20 + 20 * i;
             let x = 150 + 110 * i;
@@ -103,58 +95,52 @@ function initXylophoneGame() {
             drawKey(newKey, ctx);
         }
     }
-    function drawKey(_key) {
-        let x = _key.posX;
-        let y = _key.posY;
-        let keyPath = _key.path;
-        ctx.fillStyle = _key.color;
-        ctx.lineWidth = 1;
-        keyPath.moveTo(x, y);
-        keyPath.rect(x, y, _key.width, _key.length);
-        ctx.fill(keyPath);
-        ctx.stroke(keyPath);
-    }
     function handleClick(_event) {
+        let tempSong = "";
         let x = _event.offsetX;
         let y = _event.offsetY;
-        if (currentGameMode === "Standard") { //StandardMode: Simon Says
+        //in standard mode, checks if played note is correct and adds it to the total played notes
+        if (currentGameMode === "Standard") {
             if (playerTurn == true) {
                 if (keysPlayed < songProgress) {
                     for (let i = 0; i < keys.length; i++) {
                         let keyCheck = keys[i];
                         if (ctx.isPointInPath(keyCheck.path, x, y)) {
-                            playerSong = playerSong + keyCheck.pitch;
-                            console.log(keyCheck.pitch);
-                            audioCtx.resume().then(() => {
-                                sound.play();
-                            });
+                            tempSong = playerSong + keyCheck.pitch;
+                            playKey(keyCheck);
                             keysPlayed += 1;
-                            console.log("Keys played: " + keysPlayed);
-                            if (checkPlayerSong(song, playerSong) == false) {
+                            if (checkPlayerSong(song, tempSong) == false) {
                                 console.log("You made a mistake");
+                                wrongKey();
+                                keysPlayed = keysPlayed - 1;
                             }
-                            if (keysPlayed >= songProgress) {
+                            else {
+                                playerSong = tempSong;
+                            } //played note is only added if correct
+                            if (keysPlayed >= songProgress) { //checks if its time for the computer to play
                                 playerTurn = false;
+                            }
+                            //console.log("Keys played: " + keysPlayed);
+                            if (playerSong.length == song.length) {
+                                victory();
                             }
                         }
                     }
                 }
             }
         }
-        else if (currentGameMode === "Freemode") { //FreeMode: Player can play freely
+        else if (currentGameMode === "Freemode") { //in free mode, key is played normally
             for (let i = 0; i < keys.length; i++) {
                 let keyCheck = keys[i];
                 if (ctx.isPointInPath(keyCheck.path, x, y)) {
-                    console.log(keyCheck.pitch);
-                    audioCtx.resume().then(() => {
-                        sound.play();
-                    });
+                    playKey(keyCheck);
                 }
             }
         }
     }
 }
 function drawKey(_key, _ctx) {
+    //draws the current key
     let x = _key.posX;
     let y = _key.posY;
     let keyPath = _key.path;
@@ -166,11 +152,13 @@ function drawKey(_key, _ctx) {
     _ctx.stroke(keyPath);
 }
 function playKey(_key) {
+    //current key is played
     let sound = new Audio(_key.sound);
     sound.play();
     glowKey(_key);
 }
 function glowKey(_key) {
+    //played key glows
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     const originalColor = _key.color;
@@ -184,6 +172,7 @@ function glowKey(_key) {
     }, 300);
 }
 function lightenColor(color, amount) {
+    //calculates color for glow effect
     const hex = color.replace('#', '');
     const rgb = parseInt(hex, 16);
     const r = Math.min(255, ((rgb >> 16) & 0xff) + amount);
@@ -191,8 +180,6 @@ function lightenColor(color, amount) {
     const b = Math.min(255, (rgb & 0xff) + amount);
     return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
-let songProgress = 0;
-let strikeCount = 0;
 function simonSays(_song) {
     if (currentGameMode !== "Standard")
         return;
@@ -206,19 +193,88 @@ function simonSays(_song) {
                 playerTurn = true;
                 playerSong = "";
                 keysPlayed = 0;
-                console.log(songProgress);
             }
         }
     }
 }
-//checks if the notes player by player are correct
 function checkPlayerSong(_song, _player) {
+    //checks if the player played the correct note
     let playerCorrect = true;
     let songPart = _song.substring(0, keysPlayed);
     if (songPart !== _player) {
         playerCorrect = false;
     }
-    console.log(_player);
-    console.log(songPart);
     return playerCorrect;
+}
+function wrongKey() {
+    //adds to the strike counter and checks for game over
+    strikeCount += 1;
+    let strikes = document.getElementsByTagName("span")[0];
+    strikes.textContent = "Strikes: " + String(strikeCount);
+    if (strikeCount >= 3) {
+        gameOver();
+    }
+}
+function gameOver() {
+    //game over screen
+    document.body.innerHTML = "";
+    let gameOver = document.createElement("h1");
+    gameOver.textContent = "Game Over";
+    document.body.appendChild(gameOver);
+    let p = document.createElement("p");
+    p.textContent = "You played too many wrong notes. Skill Issue.";
+    document.body.appendChild(p);
+    let retryButton = document.createElement("button");
+    retryButton.textContent = "Try Again";
+    retryButton.addEventListener("click", restart);
+    document.body.appendChild(retryButton);
+}
+function victory() {
+    //victory screen
+    document.body.innerHTML = "";
+    let victory = document.createElement("h1");
+    victory.textContent = "You`re A Winner!";
+    document.body.appendChild(victory);
+    let p = document.createElement("p");
+    p.textContent = "You played the correct notes. Congratulations!";
+    document.body.appendChild(p);
+    let restartButton = document.createElement("button");
+    restartButton.textContent = "Back to menu";
+    restartButton.addEventListener("click", restart);
+    document.body.appendChild(restartButton);
+}
+function restart(_event) {
+    location.reload();
+}
+function songSelector() {
+    const canvas = document.getElementById("canvas");
+    const buttonContainer = document.createElement("div");
+    buttonContainer.style.position = "absolute";
+    buttonContainer.style.left = `${canvas.offsetLeft - 270}px`;
+    buttonContainer.style.top = `${canvas.offsetTop}px`;
+    buttonContainer.style.display = "flex";
+    buttonContainer.style.flexDirection = "column";
+    buttonContainer.style.gap = "10px";
+    //generate song select buttons
+    let songs = ["11556654433221", "334554321123322", "321233322233355321233322232", "3213566653213334332321", "5545225875"];
+    let songNames = ["Twinkle Twinkle Little Star", "Ode to Joy", "Mary had a little Lamb", "Let It Be", "Funky Town (Riff)"];
+    for (let i = 0; i < songs.length; i++) {
+        let songButton = document.createElement("button");
+        songButton.textContent = songNames[i];
+        songButton.id = songs[i];
+        songButton.className = "songSelect";
+        songButton.addEventListener("click", selectSong);
+        buttonContainer.appendChild(songButton);
+    }
+    document.body.appendChild(buttonContainer);
+}
+function selectSong(_event) {
+    song = _event.target.id;
+    playerSong = "";
+    keysPlayed = 0;
+    songProgress = 0;
+    strikeCount = 0;
+    let counter = document.getElementsByTagName("span")[0];
+    counter.textContent = "Strikes: 0";
+    playerTurn = false;
 }
