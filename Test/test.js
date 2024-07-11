@@ -6,7 +6,7 @@ let keys = [];
 let playerSong = "";
 let playerTurn = false;
 let keysPlayed = 0;
-let song = "12345678";
+let song = "11556654433221";
 function startGame() {
     // Get the selected game mode
     const gameModeSelect = document.getElementById("game-mode"); //gets gamemode
@@ -44,6 +44,20 @@ function startGame() {
         counter.textContent = "Strikes: 0";
         document.body.appendChild(counter);
         counter.style.textAlign = "center";
+        songSelector();
+        //Explanation paragraph
+        const explanation = document.createElement("p");
+        explanation.textContent = "Press the button to play the next sound. Replay every sound you heard in order.";
+        explanation.style.marginTop = "10px";
+        explanation.style.fontWeight = "bold";
+        explanation.style.maxWidth = "300px";
+        explanation.style.textAlign = "center";
+        document.body.appendChild(explanation);
+        //Strike counter
+        let counter = document.createElement("span");
+        counter.textContent = "Strikes: 0";
+        document.body.appendChild(counter);
+        counter.style.textAlign = "center";
         // Initialize the xylophone game
         initXylophoneGame();
     }
@@ -51,6 +65,10 @@ function startGame() {
 function initXylophoneGame() {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+    let restartButton = document.createElement("button");
+    restartButton.textContent = "Back to Menu";
+    restartButton.addEventListener("click", restart);
+    document.body.appendChild(restartButton);
     const keyCount = 8;
     let pitches = ["1", "2", "3", "4", "5", "6", "7", "8"];
     let sounds = ["Sounds/xylophone-c3.wav", "Sounds/xylophone-d3.wav", "Sounds/xylophone-e3.wav", "Sounds/xylophone-f3.wav",
@@ -85,6 +103,17 @@ function initXylophoneGame() {
             drawKey(newKey, ctx);
         }
     }
+    function drawKey(_key) {
+        let x = _key.posX;
+        let y = _key.posY;
+        let keyPath = _key.path;
+        ctx.fillStyle = _key.color;
+        ctx.lineWidth = 1;
+        keyPath.moveTo(x, y);
+        keyPath.rect(x, y, _key.width, _key.length);
+        ctx.fill(keyPath);
+        ctx.stroke(keyPath);
+    }
     function handleClick(_event) {
         let x = _event.offsetX;
         let y = _event.offsetY;
@@ -93,21 +122,20 @@ function initXylophoneGame() {
                 if (keysPlayed < songProgress) {
                     for (let i = 0; i < keys.length; i++) {
                         let keyCheck = keys[i];
-                        let sound = new Audio(keyCheck.sound);
                         if (ctx.isPointInPath(keyCheck.path, x, y)) {
                             playerSong = playerSong + keyCheck.pitch;
-                            playKey(keyCheck);
+                            console.log(keyCheck.pitch);
+                            audioCtx.resume().then(() => {
+                                sound.play();
+                            });
+                            keysPlayed += 1;
+                            console.log("Keys played: " + keysPlayed);
                             if (checkPlayerSong(song, playerSong) == false) {
                                 console.log("You made a mistake");
-                                wrongKey();
-                            }
-                            else {
-                                keysPlayed += 1;
                             }
                             if (keysPlayed >= songProgress) {
                                 playerTurn = false;
                             }
-                            console.log("Keys played: " + keysPlayed);
                         }
                     }
                 }
@@ -117,9 +145,11 @@ function initXylophoneGame() {
             for (let i = 0; i < keys.length; i++) {
                 let keyCheck = keys[i];
                 if (ctx.isPointInPath(keyCheck.path, x, y)) {
-                    playKey(keyCheck);
+                    console.log(keyCheck.pitch);
+                    audioCtx.resume().then(() => {
+                        sound.play();
+                    });
                 }
-                ;
             }
         }
     }
@@ -137,19 +167,32 @@ function drawKey(_key, _ctx) {
 }
 function playKey(_key) {
     let sound = new Audio(_key.sound);
+    sound.play();
+    glowKey(_key);
+}
+function glowKey(_key) {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    ctx.strokeStyle = "white";
-    ctx.lineWidth = 10;
-    ctx.stroke(_key.path);
-    audioCtx.resume().then(() => {
-        sound.play();
-    });
-    //
-    drawKey(_key, ctx);
+    const originalColor = _key.color;
+    ctx.fillStyle = lightenColor(originalColor, 50);
+    ctx.fill(_key.path);
+    setTimeout(() => {
+        ctx.fillStyle = originalColor;
+        ctx.fill(_key.path);
+        ctx.strokeStyle = "black";
+        ctx.stroke(_key.path);
+    }, 300);
+}
+function lightenColor(color, amount) {
+    const hex = color.replace('#', '');
+    const rgb = parseInt(hex, 16);
+    const r = Math.min(255, ((rgb >> 16) & 0xff) + amount);
+    const g = Math.min(255, ((rgb >> 8) & 0xff) + amount);
+    const b = Math.min(255, (rgb & 0xff) + amount);
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
 let songProgress = 0;
-//SimonSaysMode, Computer plays current note and waits for the player to play all previous notes plus the current one
+let strikeCount = 0;
 function simonSays(_song) {
     if (currentGameMode !== "Standard")
         return;
@@ -178,42 +221,4 @@ function checkPlayerSong(_song, _player) {
     console.log(_player);
     console.log(songPart);
     return playerCorrect;
-}
-let strikeCount = 0;
-function wrongKey() {
-    strikeCount += 1;
-    let strikes = document.getElementsByTagName("span")[0];
-    strikes.textContent = "Strikes: " + String(strikeCount);
-    if (strikeCount >= 3) {
-        gameOver();
-    }
-}
-function gameOver() {
-    document.body.innerHTML = "";
-    let gameOver = document.createElement("h1");
-    gameOver.textContent = "Game Over";
-    document.body.appendChild(gameOver);
-    let p = document.createElement("p");
-    p.textContent = "You played too many wrong notes. Skill Issue.";
-    document.body.appendChild(p);
-    let retryButton = document.createElement("button");
-    retryButton.textContent = "Try Again";
-    retryButton.addEventListener("click", restart);
-    document.body.appendChild(retryButton);
-}
-function restart(_event) {
-    location.reload();
-}
-function victory() {
-    document.body.innerHTML = "";
-    let victory = document.createElement("h1");
-    victory.textContent = "You`re Winner!";
-    document.body.appendChild(victory);
-    let p = document.createElement("p");
-    p.textContent = "You played the correct notes";
-    document.body.appendChild(p);
-    let restartButton = document.createElement("button");
-    restartButton.textContent = "Restart";
-    restartButton.addEventListener("click", restart);
-    document.body.appendChild(restartButton);
 }
